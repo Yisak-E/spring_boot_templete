@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
-public class JWTUtil {
+public class JwtUtil {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
@@ -54,7 +54,7 @@ public class JWTUtil {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
     }
 
