@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -52,8 +53,13 @@ public class JwtAuthenticationFilter {
                         null,
                         userDetails.getAuthorities()
                 );
-            }
 
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)); // set details like ip address
+
+                SecurityContextHolder.getContext().setAuthentication(authToken);// set auth in spring security context
+            }
         }
+
+        chain.doFilter(request, response);
     }
 }
